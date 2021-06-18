@@ -181,7 +181,7 @@ class ShardingClient extends EventEmitter {
         }
 
         // Get client id
-        let id = (await this.manager.broadcastEval("this.user.id"))[0];
+        let id = (await this.manager.broadcastEval(client => client.user.id))[0];
 
         // Post data
         let requestBody = {
@@ -361,7 +361,7 @@ async function getGuildCountV12(manager) {
 }
 
 async function getUserCountV12(manager) {
-    const memberNum = await manager.broadcastEval('this.guilds.cache.reduce((prev, guild) => prev + guild.memberCount, 0)');
+    const memberNum = await manager.broadcastEval(client => client.guilds.cache.reduce((prev, guild) => prev + guild.memberCount, 0));
     return memberNum.reduce((prev, memberCount) => prev + memberCount, 0);
 }
 // end
